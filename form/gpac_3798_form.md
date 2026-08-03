@@ -38,18 +38,20 @@ GPAC MP4Box BT/BIFS场景解析功能
 
 ## PoC
 
-```
-https://raw.githubusercontent.com/Ech06/CVE_submit/main/pocs/poc_3798
-```
+[poc_3798](https://github.com/Ech06/CVE_submit/blob/main/pocs/poc_3798)
 
 ## 触发过程
 
 ```
-1. 获取 GPAC 源代码并切换至存在漏洞的 f1219cde 版本。
-2. 使用 --enable-sanitizer --static-mp4box 参数配置并编译 MP4Box。
-3. 将畸形 BT/BIFS 场景文件 poc_3798 放置在 gpac 同级的 pocs 目录中。
-4. 执行 ./bin/gcc/MP4Box -add ../pocs/poc_3798 -new /tmp/out.mp4。
-5. MP4Box 解析畸形 BIFS 命令并进入未知命令错误报告路径。gf_bt_report 调用 vsnprintf 时缺少 %s 对应的参数，将无效值作为字符串指针读取，最终触发 AddressSanitizer SEGV 并终止进程。
+git checkout f1219cde
+./configure --enable-sanitizer --static-mp4box
+make -j$(nproc)
+./bin/gcc/MP4Box -add ../pocs/poc_3798 -new /tmp/out.mp4
+
+预期报错：
+ERROR: AddressSanitizer: SEGV on unknown address 0x0000ffffffff
+The signal is caused by a READ memory access.
+SUMMARY: AddressSanitizer: SEGV in __sanitizer::internal_strlen(char const*)
 ```
 
 ## 漏洞URL

@@ -38,18 +38,20 @@ GPAC MP4Box XMT原型节点销毁功能
 
 ## PoC
 
-```
-https://raw.githubusercontent.com/Ech06/CVE_submit/main/pocs/poc_3801
-```
+[poc_3801](https://github.com/Ech06/CVE_submit/blob/main/pocs/poc_3801)
 
 ## 触发过程
 
 ```
-1. 获取 GPAC 源代码并切换至存在漏洞的 f1219cde 版本。
-2. 使用 --enable-sanitizer --static-mp4box 参数配置并编译 MP4Box。
-3. 将畸形 XMT 场景文件 poc_3801 放置在 gpac 同级的 pocs 目录中。
-4. 执行 ./bin/gcc/MP4Box -add ../pocs/poc_3801 -new /tmp/out.mp4。
-5. 畸形 XMT 中嵌套或异常终止的 ProtoDeclare 使原型默认节点和场景图所有权不一致。原型子图被释放后，OrderedGroup 销毁路径仍通过 gf_node_unregister 访问其中的节点，触发 heap-use-after-free 并终止进程。
+git checkout f1219cde
+./configure --enable-sanitizer --static-mp4box
+make -j$(nproc)
+./bin/gcc/MP4Box -add ../pocs/poc_3801 -new /tmp/out.mp4
+
+预期报错：
+ERROR: AddressSanitizer: heap-use-after-free
+READ of size 8
+SUMMARY: AddressSanitizer: heap-use-after-free in gf_node_unregister
 ```
 
 ## 漏洞URL

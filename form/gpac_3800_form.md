@@ -38,18 +38,20 @@ GPAC MP4Box 场景图销毁功能
 
 ## PoC
 
-```
-https://raw.githubusercontent.com/Ech06/CVE_submit/main/pocs/poc_3800
-```
+[poc_3800](https://github.com/Ech06/CVE_submit/blob/main/pocs/poc_3800)
 
 ## 触发过程
 
 ```
-1. 获取 GPAC 源代码并切换至存在漏洞的 f1219cde 版本。
-2. 使用 --enable-sanitizer --static-mp4box 参数配置并编译 MP4Box。
-3. 将畸形场景文件 poc_3800 放置在 gpac 同级的 pocs 目录中。
-4. 执行 ./bin/gcc/MP4Box -add ../pocs/poc_3800 -new /tmp/out.mp4。
-5. 畸形场景使场景图进入不一致状态。清理阶段 gf_node_replace 先注销并释放旧节点，再调用 gf_node_changed 通知父节点；通知过程访问已释放的节点或原型状态，触发 heap-use-after-free 并终止进程。
+git checkout f1219cde
+./configure --enable-sanitizer --static-mp4box
+make -j$(nproc)
+./bin/gcc/MP4Box -add ../pocs/poc_3800 -new /tmp/out.mp4
+
+预期报错：
+ERROR: AddressSanitizer: heap-use-after-free
+READ of size 8
+SUMMARY: AddressSanitizer: heap-use-after-free in gf_node_changed_internal
 ```
 
 ## 漏洞URL

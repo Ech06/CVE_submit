@@ -38,18 +38,20 @@ GPAC MP4Box XMT场景脚本加载功能
 
 ## PoC
 
-```
-https://raw.githubusercontent.com/Ech06/CVE_submit/main/pocs/poc_3799
-```
+[poc_3799](https://github.com/Ech06/CVE_submit/blob/main/pocs/poc_3799)
 
 ## 触发过程
 
 ```
-1. 获取 GPAC 源代码并切换至存在漏洞的 f1219cde 版本。
-2. 使用 --enable-sanitizer --static-mp4box 参数配置并编译 MP4Box。
-3. 将畸形 XMT 场景文件 poc_3799 放置在 gpac 同级的 pocs 目录中。
-4. 执行 ./bin/gcc/MP4Box -add ../pocs/poc_3799 -new /tmp/out.mp4。
-5. XMT 解析器处理不匹配的节点和结束标签时释放 Script 节点，但仍将该节点指针加入延迟脚本加载列表。应用场景命令时，gf_sg_script_load 再次读取已释放节点，触发 heap-use-after-free 并终止进程。
+git checkout f1219cde
+./configure --enable-sanitizer --static-mp4box
+make -j$(nproc)
+./bin/gcc/MP4Box -add ../pocs/poc_3799 -new /tmp/out.mp4
+
+预期报错：
+ERROR: AddressSanitizer: heap-use-after-free
+READ of size 8
+SUMMARY: AddressSanitizer: heap-use-after-free in gf_sg_script_load
 ```
 
 ## 漏洞URL

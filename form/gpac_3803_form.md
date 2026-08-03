@@ -38,18 +38,20 @@ GPAC MP4Box BT场景DEF节点解析功能
 
 ## PoC
 
-```
-https://raw.githubusercontent.com/Ech06/CVE_submit/main/pocs/poc_3803
-```
+[poc_3803](https://github.com/Ech06/CVE_submit/blob/main/pocs/poc_3803)
 
 ## 触发过程
 
 ```
-1. 获取 GPAC 源代码并切换至存在漏洞的 f1219cde 版本。
-2. 使用 --enable-sanitizer --static-mp4box 参数配置并编译 MP4Box。
-3. 将畸形 BT 场景文件 poc_3803 放置在 gpac 同级的 pocs 目录中。
-4. 执行 ./bin/gcc/MP4Box -add ../pocs/poc_3803 -new /tmp/out.mp4。
-5. gf_bt_sf_node 解析畸形节点失败后注销并释放半构造节点，但未从 parser->def_nodes 列表中删除相同指针。后续 DEF/USE 名称解析调用 gf_node_get_name 读取该悬空指针，触发 heap-use-after-free 并终止进程。
+git checkout f1219cde
+./configure --enable-sanitizer --static-mp4box
+make -j$(nproc)
+./bin/gcc/MP4Box -add ../pocs/poc_3803 -new /tmp/out.mp4
+
+预期报错：
+ERROR: AddressSanitizer: heap-use-after-free
+READ of size 8
+SUMMARY: AddressSanitizer: heap-use-after-free in gf_node_get_name
 ```
 
 ## 漏洞URL
