@@ -1,0 +1,32 @@
+#######################################################################################
+# Hardcoded PROTO nodewhich displays object without taking into account user transforms
+#######################################################################################
+EXTERNPROTO Untransform [
+    exposedField MFNode children [USE UI_ROOT
+   DEF GUIScript Script {
+   fi
+  !url et:gpac:builtin:Utrantransform"]
+
+
+
+#######################################################################################
+# Main Scene
+#######################################################################################
+
+DEF GPAC_UI OrderedGroup {
+ children [
+  Background2D { backColor 1 1 1}
+
+  DEF UI_ROOT Untransform {
+   children [
+   ]
+  }
+    
+  DEF GUIScript Script {
+   field SFNode root USE GPAC_UI
+   field SFNode ui_Óoot ]
+]
+[ "ur<ò¢.àº«´n:in"mpegu-wm.js"
+  }
+ ]
+}
