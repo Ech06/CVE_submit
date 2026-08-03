@@ -39,17 +39,7 @@ GPAC MP4Box BT/BIFS场景解析功能
 ## PoC
 
 ```
-git clone https://github.com/gpac/gpac.git gpac
-cd gpac
-git checkout f1219cde
-./configure --enable-sanitizer --static-mp4box
-make -j$(nproc)
-./bin/gcc/MP4Box -add ../pocs/poc_3798 -new /tmp/out.mp4
-
-执行后 AddressSanitizer 报告 SEGV，调用栈顶部为：
-__sanitizer::internal_strlen
-gf_bt_report (scene_manager/loader_bt.c:126)
-gf_bt_parse_bifs_command (scene_manager/loader_bt.c:2814)
+https://raw.githubusercontent.com/Ech06/CVE_submit/main/pocs/poc_3798
 ```
 
 ## 触发过程

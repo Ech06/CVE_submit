@@ -39,18 +39,7 @@ GPAC MP4Box 场景图销毁功能
 ## PoC
 
 ```
-git clone https://github.com/gpac/gpac.git gpac
-cd gpac
-git checkout f1219cde
-./configure --enable-sanitizer --static-mp4box
-make -j$(nproc)
-./bin/gcc/MP4Box -add ../pocs/poc_3800 -new /tmp/out.mp4
-
-执行后 AddressSanitizer 报告 heap-use-after-free，调用栈顶部为：
-gf_node_changed_internal (scenegraph/base_scenegraph.c:1892)
-gf_node_changed (scenegraph/base_scenegraph.c:1934)
-gf_node_replace (scenegraph/base_scenegraph.c:1007)
-gf_sg_reset (scenegraph/base_scenegraph.c:433)
+https://raw.githubusercontent.com/Ech06/CVE_submit/main/pocs/poc_3800
 ```
 
 ## 触发过程

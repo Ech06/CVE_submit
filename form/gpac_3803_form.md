@@ -39,17 +39,7 @@ GPAC MP4Box BT场景DEF节点解析功能
 ## PoC
 
 ```
-git clone https://github.com/gpac/gpac.git gpac
-cd gpac
-git checkout f1219cde
-./configure --enable-sanitizer --static-mp4box
-make -j$(nproc)
-./bin/gcc/MP4Box -add ../pocs/poc_3803 -new /tmp/out.mp4
-
-执行后 AddressSanitizer 报告 heap-use-after-free，调用栈顶部为：
-gf_node_get_name (scenegraph/base_scenegraph.c:1340)
-gf_bt_has_been_def (scene_manager/loader_bt.c:1257)
-gf_bt_sf_node (scene_manager/loader_bt.c:1330)
+https://raw.githubusercontent.com/Ech06/CVE_submit/main/pocs/poc_3803
 ```
 
 ## 触发过程

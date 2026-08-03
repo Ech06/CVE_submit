@@ -39,17 +39,7 @@ GPAC MP4Box XMT场景脚本加载功能
 ## PoC
 
 ```
-git clone https://github.com/gpac/gpac.git gpac
-cd gpac
-git checkout f1219cde
-./configure --enable-sanitizer --static-mp4box
-make -j$(nproc)
-./bin/gcc/MP4Box -add ../pocs/poc_3799 -new /tmp/out.mp4
-
-执行后 AddressSanitizer 报告 heap-use-after-free，调用栈顶部为：
-gf_sg_script_load (scenegraph/vrml_tools.c:265)
-gf_sg_command_apply (scenegraph/commands.c:902)
-ctxload_process (filters/load_bt_xmt.c:624)
+https://raw.githubusercontent.com/Ech06/CVE_submit/main/pocs/poc_3799
 ```
 
 ## 触发过程

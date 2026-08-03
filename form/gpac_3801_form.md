@@ -39,18 +39,7 @@ GPAC MP4Box XMT原型节点销毁功能
 ## PoC
 
 ```
-git clone https://github.com/gpac/gpac.git gpac
-cd gpac
-git checkout f1219cde
-./configure --enable-sanitizer --static-mp4box
-make -j$(nproc)
-./bin/gcc/MP4Box -add ../pocs/poc_3801 -new /tmp/out.mp4
-
-执行后 AddressSanitizer 报告 heap-use-after-free，调用栈顶部为：
-gf_node_unregister (scenegraph/base_scenegraph.c:779)
-gf_sg_vrml_parent_destroy (scenegraph/vrml_tools.c:168)
-OrderedGroup_Del (scenegraph/mpeg4_nodes.c:10353)
-gf_sg_reset (scenegraph/base_scenegraph.c:522)
+https://raw.githubusercontent.com/Ech06/CVE_submit/main/pocs/poc_3801
 ```
 
 ## 触发过程
